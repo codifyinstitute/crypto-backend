@@ -6,26 +6,34 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: true,
     },
-    Accounts:[{
-        Name:{
-            type:String,
-            required:true
+    OTP: {
+        type: String,
+        required: false,
+    },
+    OTPExpires: {
+        type: Date,
+        required: false,
+    },
+    Accounts: [{
+        Name: {
+            type: String,
+            required: true
         },
-        Country:{
-            type:String,
-            required:true
+        Country: {
+            type: String,
+            required: true
         },
-        BankName:{
-            type:String,
-            required:true
+        BankName: {
+            type: String,
+            required: true
         },
-        AccountNumber:{
-            type:String,
-            required:true
+        AccountNumber: {
+            type: String,
+            required: true
         },
-        IFSC:{
-            type:String,
-            required:true
+        IFSC: {
+            type: String,
+            required: true
         }
     }]
 });
