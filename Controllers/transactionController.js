@@ -43,7 +43,7 @@ exports.addTransaction = async (req, res) => {
             Token,
             ProcessingFee,
             ReceivedAmount,
-            Status,
+            Status:"Pending",
             Date: currentDate,
             Time: currentTime
         });
