@@ -1,3 +1,4 @@
+const moment = require('moment');
 const Transaction = require('../Models/transactionSchema');
 
 // Utility function to generate a random 10-digit number
@@ -27,6 +28,8 @@ exports.addTransaction = async (req, res) => {
         const { Email, Name, Country, BankName, AccountNumber, IFSC, USDTAmount, ProcessingFee, ReceivedAmount, Status } = req.body;
 
         const OrderId = await generateUniqueOrderId();
+        const currentDate = moment().format('YYYY-MM-DD'); // Current date in 'YYYY-MM-DD' format
+        const currentTime = moment().format('HH:mm:ss');   // Current time in 'HH:mm:ss' format
 
         const newTransaction = new Transaction({
             OrderId,
@@ -39,7 +42,9 @@ exports.addTransaction = async (req, res) => {
             USDTAmount,
             ProcessingFee,
             ReceivedAmount,
-            Status
+            Status,
+            Date: currentDate,
+            Time: currentTime
         });
 
         await newTransaction.save();

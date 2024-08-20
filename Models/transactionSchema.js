@@ -45,6 +45,14 @@ const transactionSchema = new mongoose.Schema({
     Status:{
         type:String,
         required:true
+    },
+    Date:{
+        type:String,
+        required:true
+    },
+    Time:{
+        type:String,
+        required:true
     }
 });
 
