@@ -25,7 +25,7 @@ async function generateUniqueOrderId() {
 // Add a new transaction with a unique 10-digit OrderId
 exports.addTransaction = async (req, res) => {
     try {
-        const { Email, Name, Country, BankName, AccountNumber, IFSC, USDTAmount, ProcessingFee, ReceivedAmount, Status } = req.body;
+        const { Email, Name, Country, BankName, AccountNumber, IFSC, USDTAmount, Token, ProcessingFee, ReceivedAmount, Status } = req.body;
 
         const OrderId = await generateUniqueOrderId();
         const currentDate = moment().format('YYYY-MM-DD'); // Current date in 'YYYY-MM-DD' format
@@ -40,6 +40,7 @@ exports.addTransaction = async (req, res) => {
             AccountNumber,
             IFSC,
             USDTAmount,
+            Token,
             ProcessingFee,
             ReceivedAmount,
             Status,
@@ -86,11 +87,11 @@ exports.getTransactionById = async (req, res) => {
 exports.updateTransaction = async (req, res) => {
     try {
         const { id } = req.params;
-        const { OrderId, Email, Name, Country, BankName, AccountNumber, IFSC, USDTAmount, ProcessingFee, ReceivedAmount, Status } = req.body;
+        const { OrderId, Email, Name, Country, BankName, AccountNumber, IFSC, USDTAmount, Token, ProcessingFee, ReceivedAmount, Status } = req.body;
 
         const updatedTransaction = await Transaction.findByIdAndUpdate(
             id,
-            { OrderId, Email, Name, Country, BankName, AccountNumber, IFSC, USDTAmount, ProcessingFee, ReceivedAmount, Status },
+            { OrderId, Email, Name, Country, BankName, AccountNumber, IFSC, USDTAmount, Token, ProcessingFee, ReceivedAmount, Status },
             { new: true, runValidators: true }
         );
 

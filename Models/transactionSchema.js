@@ -34,6 +34,10 @@ const transactionSchema = new mongoose.Schema({
         type:Number,
         required:true
     },
+    Token:{
+        type:String,
+        required:true
+    },
     ProcessingFee:{
         type:Number,
         required:true
