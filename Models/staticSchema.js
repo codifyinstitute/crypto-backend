@@ -4,6 +4,14 @@ const staticSchema = new mongoose.Schema({
     TransactionFee:{
         type: Number,
         required: true
+    },
+    LoginId:{
+        type: String,
+        required: true
+    },
+    Password:{
+        type: String,
+        required: true
     }
 });
 

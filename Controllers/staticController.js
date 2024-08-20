@@ -1,11 +1,11 @@
-const Static = require('../Models/staticSchema'); 
+const Static = require('../Models/staticSchema');
 
 // Add a new static data entry
 exports.addStaticData = async (req, res) => {
     try {
-        const { TransactionFee } = req.body;
+        const { TransactionFee, LoginId, Password } = req.body;
 
-        const newStaticData = new Static({ TransactionFee });
+        const newStaticData = new Static({ TransactionFee, LoginId, Password });
 
         await newStaticData.save();
 
@@ -46,11 +46,11 @@ exports.getStaticDataById = async (req, res) => {
 exports.updateStaticData = async (req, res) => {
     try {
         const { id } = req.params;
-        const { TransactionFee } = req.body;
+        const { TransactionFee, LoginId, Password } = req.body;
 
         const updatedStaticData = await Static.findByIdAndUpdate(
             id,
-            { TransactionFee },
+            { TransactionFee, LoginId, Password },
             { new: true, runValidators: true }
         );
 
@@ -78,5 +78,24 @@ exports.deleteStaticData = async (req, res) => {
         res.status(200).json({ message: "Static data deleted successfully" });
     } catch (error) {
         res.status(500).json({ message: "Error deleting static data", error: error.message });
+    }
+};
+
+exports.loginUser = async (req, res) => {
+    const { LoginId, Password } = req.body;
+    try {
+        const user = await Static.findOne({ LoginId });
+        if (!user) {
+            return res.status(400).json({ message: 'User not found' });
+        }
+
+        if (user.Password !== Password) {
+            return res.status(400).json({ message: 'Invalid password' });
+        }
+
+        return res.status(200).json({ message: 'Login Successful', Id: "Admin" });
+
+    } catch (error) {
+        res.status(500).json({ message: error.message });
     }
 };

@@ -8,6 +8,9 @@ router.post('/add', staticController.addStaticData);
 // Route to get all static data entries
 router.get('/all', staticController.getAllStaticData);
 
+// Login a user
+router.post('/login', staticController.loginUser);
+
 // Route to get a specific static data entry by ID
 router.get('/get/:id', staticController.getStaticDataById);
 
