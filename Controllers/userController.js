@@ -114,7 +114,7 @@ exports.verifyLoginOTP = async (req, res) => {
 
             await user.save();
 
-            res.status(200).json({ message: "Login successful", token: user._id });
+            res.status(200).json({ message: "Login successful", token: user.Email });
         } else {
             res.status(400).json({ message: "Invalid or expired OTP" });
         }
