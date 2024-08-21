@@ -11,6 +11,9 @@ router.get('/all', transactionController.getAllTransactions);
 // Route to get a transaction by ID
 router.get('/get/:id', transactionController.getTransactionById);
 
+// Route to get a transaction by ID
+router.get('/get/email/:Email', transactionController.getTransactionByEmail);
+
 // Route to update a transaction by ID
 router.put('/put/:id', transactionController.updateTransaction);
 

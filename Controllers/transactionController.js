@@ -43,7 +43,7 @@ exports.addTransaction = async (req, res) => {
             Token,
             ProcessingFee,
             ReceivedAmount,
-            Status:"Pending",
+            Status: "Pending",
             Date: currentDate,
             Time: currentTime
         });
@@ -72,6 +72,22 @@ exports.getTransactionById = async (req, res) => {
     try {
         const { id } = req.params;
         const transaction = await Transaction.findById(id);
+
+        if (!transaction) {
+            return res.status(404).json({ message: "Transaction not found" });
+        }
+
+        res.status(200).json(transaction);
+    } catch (error) {
+        res.status(500).json({ message: "Error retrieving transaction", error: error.message });
+    }
+};
+
+// Get a transaction by Email
+exports.getTransactionByEmail = async (req, res) => {
+    try {
+        const { Email } = req.params;
+        const transaction = await Transaction.find({Email});
 
         if (!transaction) {
             return res.status(404).json({ message: "Transaction not found" });
