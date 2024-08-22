@@ -3,9 +3,9 @@ const Static = require('../Models/staticSchema');
 // Add a new static data entry
 exports.addStaticData = async (req, res) => {
     try {
-        const { TransactionFee, LoginId, Password } = req.body;
+        const { TransactionFee, LoginId, Password, QRCode, TransactionId } = req.body;
 
-        const newStaticData = new Static({ TransactionFee, LoginId, Password });
+        const newStaticData = new Static({ TransactionFee, LoginId, Password, QRCode, TransactionId });
 
         await newStaticData.save();
 
@@ -46,11 +46,18 @@ exports.getStaticDataById = async (req, res) => {
 exports.updateStaticData = async (req, res) => {
     try {
         const { id } = req.params;
-        const { TransactionFee, LoginId, Password } = req.body;
+        const { TransactionFee, LoginId, Password, TransactionId } = req.body;
+        let QRCode = req.body.QRCode;
+
+        // Check if a new file was uploaded
+        if (req.file) {
+            // Use the filename from Multer
+            QRCode = req.file.filename;
+        }
 
         const updatedStaticData = await Static.findByIdAndUpdate(
             id,
-            { TransactionFee, LoginId, Password },
+            { TransactionFee, LoginId, Password, QRCode, TransactionId },
             { new: true, runValidators: true }
         );
 

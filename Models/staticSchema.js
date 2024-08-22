@@ -1,18 +1,26 @@
 const mongoose = require("mongoose");
 
 const staticSchema = new mongoose.Schema({
-    TransactionFee:{
+    TransactionFee: {
         type: Number,
         required: true
     },
-    LoginId:{
+    LoginId: {
         type: String,
         required: true
     },
-    Password:{
+    Password: {
         type: String,
         required: true
-    }
+    },
+    QRCode: {
+        type: String,
+        required: true
+    },
+    TransactionId: {
+        type: String,
+        required: true
+    },
 });
 
 const Static = mongoose.model("Static", staticSchema);
