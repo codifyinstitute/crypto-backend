@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Transaction = require("./transactionSchema");
 
 const currencySchema = new mongoose.Schema({
     Name: {
@@ -12,6 +13,14 @@ const currencySchema = new mongoose.Schema({
     },
     Rate:{
         type: Number,
+        required: true
+    },
+    TransactionId:{
+        type: String,
+        required: true
+    },
+    QRCode:{
+        type: String,
         required: true
     }
 });

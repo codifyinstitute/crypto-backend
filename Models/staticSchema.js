@@ -5,6 +5,10 @@ const staticSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
+    NetworkFee:{
+        type:Number,
+        required:true
+    },
     LoginId: {
         type: String,
         required: true
@@ -12,15 +16,7 @@ const staticSchema = new mongoose.Schema({
     Password: {
         type: String,
         required: true
-    },
-    QRCode: {
-        type: String,
-        required: true
-    },
-    TransactionId: {
-        type: String,
-        required: true
-    },
+    }
 });
 
 const Static = mongoose.model("Static", staticSchema);

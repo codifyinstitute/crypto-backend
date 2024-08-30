@@ -3,12 +3,19 @@ const Currency = require('../Models/currencySchema');
 // Add a new currency
 exports.addCurrency = async (req, res) => {
     try {
-        const { Name, Symbol, Rate } = req.body;
+        const { Name, Symbol, Rate, TransactionId } = req.body;
+
+        let QRCode = req.body.QRCode;
+        if (req.file) {
+            QRCode = req.file.filename;
+        }
 
         const newCurrency = new Currency({
             Name,
             Symbol,
-            Rate
+            Rate,
+            TransactionId,
+            QRCode
         });
 
         await newCurrency.save();
@@ -50,11 +57,16 @@ exports.getCurrencyById = async (req, res) => {
 exports.updateCurrency = async (req, res) => {
     try {
         const { id } = req.params;
-        const { Name, Symbol, Rate } = req.body;
+        const { Name, Symbol, Rate, TransactionId } = req.body;
+
+        let QRCode = req.body.QRCode;
+        if (req.file) {
+            QRCode = req.file.filename;
+        }
 
         const updatedCurrency = await Currency.findByIdAndUpdate(
             id,
-            { Name, Symbol, Rate },
+            { Name, Symbol, Rate, TransactionId, QRCode },
             { new: true, runValidators: true }
         );
 
@@ -72,9 +84,9 @@ exports.updateCurrency = async (req, res) => {
 exports.deleteCurrency = async (req, res) => {
     try {
         const { id } = req.params;
-
+        console.log(id)
         const deletedCurrency = await Currency.findByIdAndDelete(id);
-
+        console.log(deletedCurrency)
         if (!deletedCurrency) {
             return res.status(404).json({ message: "Currency not found" });
         }
@@ -82,5 +94,6 @@ exports.deleteCurrency = async (req, res) => {
         res.status(200).json({ message: "Currency deleted successfully" });
     } catch (error) {
         res.status(500).json({ message: "Error deleting currency", error: error.message });
+        console.log(error)
     }
 };

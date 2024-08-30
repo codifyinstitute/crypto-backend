@@ -16,7 +16,7 @@ router.post('/login', staticController.loginUser);
 router.get('/get/:id', staticController.getStaticDataById);
 
 // Route to update a static data entry by ID
-router.put('/put/:id', upload, staticController.updateStaticData);
+router.put('/put/:id', staticController.updateStaticData);
 
 // Route to delete a static data entry by ID
 router.delete('/del/:id', staticController.deleteStaticData);
