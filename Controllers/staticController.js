@@ -3,9 +3,14 @@ const Static = require('../Models/staticSchema');
 // Add a new static data entry
 exports.addStaticData = async (req, res) => {
     try {
-        const { TransactionFee, LoginId, Password, NetworkFee } = req.body;
+        const { TransactionFee, LoginId, Password, NetworkFee, Binance, Coinbase, Kraken, Wazirx } = req.body;
 
-        const newStaticData = new Static({ TransactionFee, LoginId, Password, NetworkFee });
+        const kraken = JSON.parse(Kraken);
+        const binance = JSON.parse(Binance);
+        const coinbase = JSON.parse(Coinbase);
+        const wazirx = JSON.parse(Wazirx);
+
+        const newStaticData = new Static({ TransactionFee, LoginId, Password, NetworkFee, Binance: binance, Coinbase: coinbase, Kraken: kraken, Wazirx: wazirx });
 
         await newStaticData.save();
 
@@ -46,11 +51,16 @@ exports.getStaticDataById = async (req, res) => {
 exports.updateStaticData = async (req, res) => {
     try {
         const { id } = req.params;
-        const { TransactionFee, LoginId, Password, NetworkFee } = req.body;
+        const { TransactionFee, LoginId, Password, NetworkFee, Binance, Coinbase, Kraken, Wazirx } = req.body;
+
+        const kraken = JSON.parse(Kraken);
+        const binance = JSON.parse(Binance);
+        const coinbase = JSON.parse(Coinbase);
+        const wazirx = JSON.parse(Wazirx);
 
         const updatedStaticData = await Static.findByIdAndUpdate(
             id,
-            { TransactionFee, LoginId, Password, NetworkFee },
+            { TransactionFee, LoginId, Password, NetworkFee, Binance: binance, Coinbase: coinbase, Kraken: kraken, Wazirx: wazirx },
             { new: true, runValidators: true }
         );
 

@@ -1,4 +1,5 @@
 const moment = require('moment');
+const Counter = require('../Models/counterSchema');
 const Transaction = require('../Models/transactionSchema');
 
 // Utility function to generate a random 10-digit number
@@ -25,14 +26,26 @@ async function generateUniqueOrderId() {
 // Add a new transaction with a unique 10-digit OrderId
 exports.addTransaction = async (req, res) => {
     try {
-        const { Email, Name, Country, BankName, AccountNumber, IFSC, USDTAmount, Token, ProcessingFee, ReceivedAmount, Status } = req.body;
+        var id;
+        const { TransactionId, Email, Name, Country, BankName, AccountNumber, IFSC, USDTAmount, Token, ProcessingFee, ReceivedAmount, Status } = req.body;
 
-        const OrderId = await generateUniqueOrderId();
+        let counter = await Counter.findOne({ Title: `Transaction` });
+
+        if (!counter) {
+            counter = new Counter({ Title: `Transaction`, Count: 1 });
+        } else {
+            counter.Count += 1;
+        }
+
+        await counter.save();
+
+        id = `${counter.Count.toString().padStart(10, '0')}`;
         const currentDate = moment().format('YYYY-MM-DD'); // Current date in 'YYYY-MM-DD' format
         const currentTime = moment().format('HH:mm:ss');   // Current time in 'HH:mm:ss' format
 
         const newTransaction = new Transaction({
-            OrderId,
+            OrderId: id,
+            TransactionId,
             Email,
             Name,
             Country,
@@ -87,7 +100,7 @@ exports.getTransactionById = async (req, res) => {
 exports.getTransactionByEmail = async (req, res) => {
     try {
         const { Email } = req.params;
-        const transaction = await Transaction.find({Email});
+        const transaction = await Transaction.find({ Email });
 
         if (!transaction) {
             return res.status(404).json({ message: "Transaction not found" });
@@ -103,11 +116,11 @@ exports.getTransactionByEmail = async (req, res) => {
 exports.updateTransaction = async (req, res) => {
     try {
         const { id } = req.params;
-        const { OrderId, Email, Name, Country, BankName, AccountNumber, IFSC, USDTAmount, Token, ProcessingFee, ReceivedAmount, Status } = req.body;
+        const { OrderId, TransactionId, Email, Name, Country, BankName, AccountNumber, IFSC, USDTAmount, Token, ProcessingFee, ReceivedAmount, Status } = req.body;
 
         const updatedTransaction = await Transaction.findByIdAndUpdate(
             id,
-            { OrderId, Email, Name, Country, BankName, AccountNumber, IFSC, USDTAmount, Token, ProcessingFee, ReceivedAmount, Status },
+            { OrderId, TransactionId, Email, Name, Country, BankName, AccountNumber, IFSC, USDTAmount, Token, ProcessingFee, ReceivedAmount, Status },
             { new: true, runValidators: true }
         );
 
