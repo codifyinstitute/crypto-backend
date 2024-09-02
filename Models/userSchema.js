@@ -6,6 +6,10 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: true,
     },
+    MobileNo:{
+        type: String,
+        required: true,
+    },
     OTP: {
         type: String,
         required: false,

@@ -4,10 +4,10 @@ const { generateOTP, sendOTPEmail } = require('../Utils/otpUtils'); // Adjust th
 // Signup with OTP
 exports.signup = async (req, res) => {
     try {
-        const { Email } = req.body;
+        const { Email, MobileNo } = req.body;
 
         // Check if the email already exists
-        let user = await User.findOne({ Email });
+        let user = await User.findOne({ Email, MobileNo });
 
         if (user) {
             return res.status(400).json({ message: "Email already registered" });
@@ -138,7 +138,7 @@ exports.getAllUsers = async (req, res) => {
 exports.getUserById = async (req, res) => {
     try {
         const { emailId } = req.params;
-        const user = await User.findOne({Email:emailId});
+        const user = await User.findOne({ Email: emailId });
 
         if (!user) {
             return res.status(404).json({ message: "User not found" });
@@ -156,7 +156,7 @@ exports.addOrUpdateAccount = async (req, res) => {
         const { emailId } = req.params;
         const accountData = req.body;
 
-        const user = await User.findOne({Email:emailId});
+        const user = await User.findOne({ Email: emailId });
 
         if (!user) {
             return res.status(404).json({ message: "User not found" });
@@ -186,7 +186,7 @@ exports.deleteAccount = async (req, res) => {
     try {
         const { emailId, accountNumber } = req.params;
 
-        const user = await User.findOne({Email:emailId});
+        const user = await User.findOne({ Email: emailId });
 
         if (!user) {
             return res.status(404).json({ message: "User not found" });
@@ -207,7 +207,7 @@ exports.deleteUser = async (req, res) => {
     try {
         const { emailId } = req.params;
 
-        const deletedUser = await User.findOneAndDelete({Email:emailId});
+        const deletedUser = await User.findOneAndDelete({ Email: emailId });
 
         if (!deletedUser) {
             return res.status(404).json({ message: "User not found" });
