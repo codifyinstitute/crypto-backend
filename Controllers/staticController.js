@@ -53,14 +53,16 @@ exports.updateStaticData = async (req, res) => {
         const { id } = req.params;
         const { TransactionFee, LoginId, Password, NetworkFee, Binance, Coinbase, Kraken, Wazirx } = req.body;
 
-        const kraken = JSON.parse(Kraken);
-        const binance = JSON.parse(Binance);
-        const coinbase = JSON.parse(Coinbase);
-        const wazirx = JSON.parse(Wazirx);
+        // If these are already objects, no need to parse them
+        // If they are strings and need to be parsed, ensure they are valid JSON
+        // const kraken = JSON.parse(Kraken);
+        // const binance = JSON.parse(Binance);
+        // const coinbase = JSON.parse(Coinbase);
+        // const wazirx = JSON.parse(Wazirx);
 
         const updatedStaticData = await Static.findByIdAndUpdate(
             id,
-            { TransactionFee, LoginId, Password, NetworkFee, Binance: binance, Coinbase: coinbase, Kraken: kraken, Wazirx: wazirx },
+            { TransactionFee, LoginId, Password, NetworkFee, Binance, Coinbase, Kraken, Wazirx },
             { new: true, runValidators: true }
         );
 
@@ -70,9 +72,11 @@ exports.updateStaticData = async (req, res) => {
 
         res.status(200).json({ message: "Static data updated successfully", data: updatedStaticData });
     } catch (error) {
+        console.error("Error updating static data:", error); // Add logging for debugging
         res.status(500).json({ message: "Error updating static data", error: error.message });
     }
 };
+
 
 // Delete static data by ID
 exports.deleteStaticData = async (req, res) => {
