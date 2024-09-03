@@ -27,7 +27,7 @@ async function generateUniqueOrderId() {
 exports.addTransaction = async (req, res) => {
     try {
         var id;
-        const { TransactionId, Email, Name, Country, BankName, AccountNumber, IFSC, USDTAmount, Token, ProcessingFee, ReceivedAmount, Status } = req.body;
+        const { TransactionId, Email, Name, Country, BankName, AccountNumber, IFSC, USDTAmount, Token, ProcessingFee, ReceivedAmount, NetworkFee } = req.body;
 
         let counter = await Counter.findOne({ Title: `Transaction` });
 
@@ -37,12 +37,11 @@ exports.addTransaction = async (req, res) => {
             counter.Count += 1;
         }
 
-        await counter.save();
-
+        
         id = `${counter.Count.toString().padStart(10, '0')}`;
         const currentDate = moment().format('YYYY-MM-DD'); // Current date in 'YYYY-MM-DD' format
         const currentTime = moment().format('HH:mm:ss');   // Current time in 'HH:mm:ss' format
-
+        
         const newTransaction = new Transaction({
             OrderId: id,
             TransactionId,
@@ -55,17 +54,20 @@ exports.addTransaction = async (req, res) => {
             USDTAmount,
             Token,
             ProcessingFee,
+            NetworkFee,
             ReceivedAmount,
             Status: "Pending",
             Date: currentDate,
             Time: currentTime
         });
-
+        
         await newTransaction.save();
-
+        await counter.save();
+        
         res.status(201).json({ message: "Transaction added successfully", transaction: newTransaction });
     } catch (error) {
         res.status(500).json({ message: "Error adding transaction", error: error.message });
+        console.log(error)
     }
 };
 
@@ -116,11 +118,11 @@ exports.getTransactionByEmail = async (req, res) => {
 exports.updateTransaction = async (req, res) => {
     try {
         const { id } = req.params;
-        const { OrderId, TransactionId, Email, Name, Country, BankName, AccountNumber, IFSC, USDTAmount, Token, ProcessingFee, ReceivedAmount, Status } = req.body;
+        const { OrderId, TransactionId, Email, Name, Country, BankName, AccountNumber, IFSC, USDTAmount, Token, ProcessingFee, ReceivedAmount, NetworkFee, Status } = req.body;
 
         const updatedTransaction = await Transaction.findByIdAndUpdate(
             id,
-            { OrderId, TransactionId, Email, Name, Country, BankName, AccountNumber, IFSC, USDTAmount, Token, ProcessingFee, ReceivedAmount, Status },
+            { OrderId, TransactionId, Email, Name, Country, BankName, AccountNumber, IFSC, USDTAmount, Token, ProcessingFee, ReceivedAmount, NetworkFee, Status },
             { new: true, runValidators: true }
         );
 
@@ -148,5 +150,22 @@ exports.deleteTransaction = async (req, res) => {
         res.status(200).json({ message: "Transaction deleted successfully" });
     } catch (error) {
         res.status(500).json({ message: "Error deleting transaction", error: error.message });
+    }
+};
+
+
+// Get a Order count by ID
+exports.getCountById = async (req, res) => {
+    try {
+        const  id = "66d68d90822524eed39e7611";
+        const Count = await Counter.findById(id);
+
+        if (!Count) {
+            return res.status(404).json({ message: "Count not found" });
+        }
+
+        res.status(200).json(Count);
+    } catch (error) {
+        res.status(500).json({ message: "Error retrieving Count", error: error.message });
     }
 };

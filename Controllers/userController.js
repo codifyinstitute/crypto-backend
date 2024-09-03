@@ -62,7 +62,7 @@ exports.verifyOTP = async (req, res) => {
 // Login with OTP
 exports.login = async (req, res) => {
     try {
-        const { Email } = req.body;
+        const { Email, MobileNo } = req.body;
 
         let user = await User.findOne({ Email });
 
@@ -71,7 +71,7 @@ exports.login = async (req, res) => {
             const otp = generateOTP();
             const otpExpires = Date.now() + 10 * 60 * 1000; // OTP expires in 10 minutes
 
-            user = new User({ Email, OTP: otp, OTPExpires: otpExpires });
+            user = new User({ Email, MobileNo ,OTP: otp, OTPExpires: otpExpires });
 
             await user.save();
 
@@ -147,6 +147,7 @@ exports.getUserById = async (req, res) => {
         res.status(200).json(user);
     } catch (error) {
         res.status(500).json({ message: "Error retrieving user", error: error.message });
+        console.log(error);
     }
 };
 
