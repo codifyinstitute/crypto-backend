@@ -6,6 +6,7 @@ const currencyRoutes = require('./Routes/currencyRoutes');
 const transactionRoutes = require('./Routes/transactionRoutes');
 const staticRoutes = require('./Routes/staticRoutes');
 const userRoutes = require('./Routes/userRoutes');
+const contactRoutes = require('./Routes/contactRoutes');
 
 const app = express();
 require("./config/db");
@@ -24,6 +25,7 @@ app.use('/currencies', currencyRoutes);
 app.use('/transactions', transactionRoutes);
 app.use('/static', staticRoutes);
 app.use('/users', userRoutes);
+app.use('/contacts', contactRoutes);
 
 const PORT = 8000;
-app.listen(PORT, () => console.log(`Server is Running on ${PORT}`));
+app.listen(PORT, () => console.log(`Server is Running on: http://localhost:${PORT}`));
