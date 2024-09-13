@@ -39,7 +39,7 @@ exports.addTransaction = async (req, res) => {
 
         
         id = `${counter.Count.toString().padStart(10, '0')}`;
-        const currentDate = moment().format('YYYY-MM-DD'); // Current date in 'YYYY-MM-DD' format
+        const currentDate = moment().format('DD-MM-YYYY'); // Current date in 'YYYY-MM-DD' format
         const currentTime = moment().format('HH:mm:ss');   // Current time in 'HH:mm:ss' format
         
         const newTransaction = new Transaction({
