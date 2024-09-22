@@ -10,6 +10,11 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    Profile:{
+        type: String,
+        required: true,
+        default:"Icon.jpg"
+    },
     OTP: {
         type: String,
         required: false,

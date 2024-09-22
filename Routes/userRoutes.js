@@ -1,6 +1,17 @@
 const express = require('express');
 const router = express.Router();
+const multer = require('multer');
 const userController = require('../Controllers/userController');
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads/');
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.originalname);
+    }
+});
+const upload = multer({ storage });
 
 // Signup and send OTP
 router.post('/signup', userController.signup);
@@ -28,5 +39,8 @@ router.delete('/del/:emailId/accounts/:accountNumber', userController.deleteAcco
 
 // Route to delete a user by ID
 router.delete('/del/:emailId', userController.deleteUser);
+
+// Route to update profile picture
+router.put('/update/:email', upload.single('profilePicture'), userController.updateProfilePicture);
 
 module.exports = router;

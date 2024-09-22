@@ -1,5 +1,7 @@
 const User = require('../Models/userSchema'); // Adjust the path as necessary
 const { generateOTP, sendOTPEmail } = require('../Utils/otpUtils'); // Adjust the path as necessary
+const fs = require('fs');
+const path = require('path');
 
 // Signup with OTP
 exports.signup = async (req, res) => {
@@ -71,7 +73,7 @@ exports.login = async (req, res) => {
             const otp = generateOTP();
             const otpExpires = Date.now() + 10 * 60 * 1000; // OTP expires in 10 minutes
 
-            user = new User({ Email, MobileNo ,OTP: otp, OTPExpires: otpExpires });
+            user = new User({ Email, MobileNo, Profile: "Icon.jpg", OTP: otp, OTPExpires: otpExpires });
 
             await user.save();
 
@@ -79,6 +81,7 @@ exports.login = async (req, res) => {
 
             return res.status(200).json({ message: "Email not registered. OTP sent to email for signup." });
         }
+
 
         // Generate and send OTP for login
         const otp = generateOTP();
@@ -217,5 +220,36 @@ exports.deleteUser = async (req, res) => {
         res.status(200).json({ message: "User deleted successfully" });
     } catch (error) {
         res.status(500).json({ message: "Error deleting user", error: error.message });
+    }
+};
+
+
+exports.updateProfilePicture = async (req, res) => {
+    const userId = req.params.email;
+
+    try {
+        const user = await User.findOne({ Email: userId });
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Check if the current profile picture is not the default
+        if (user.Profile !== 'Icon.jpg') {
+            // Delete old profile picture
+            const oldImagePath = path.join(__dirname, '../uploads', user.Profile);
+            if (fs.existsSync(oldImagePath)) {
+                fs.unlinkSync(oldImagePath);
+            }
+        }
+
+        // Update user's profile picture
+        user.Profile = req.file.filename; // Store new image name in the database
+        await user.save();
+
+        res.json({ message: 'Profile picture updated successfully', profilePicture: user.Profile });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
     }
 };
