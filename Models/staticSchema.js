@@ -17,6 +17,10 @@ const staticSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    MinAmount:{
+        type:Number,
+        required:true
+    },
     Wazirx:{
         Average:{
             type:Number,

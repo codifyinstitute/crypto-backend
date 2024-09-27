@@ -236,7 +236,6 @@ exports.updateProfilePicture = async (req, res) => {
 
         // Check if the current profile picture is not the default
         if (user.Profile !== 'Icon.jpg') {
-            // Delete old profile picture
             const oldImagePath = path.join(__dirname, '../uploads', user.Profile);
             if (fs.existsSync(oldImagePath)) {
                 fs.unlinkSync(oldImagePath);

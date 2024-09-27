@@ -3,14 +3,14 @@ const Static = require('../Models/staticSchema');
 // Add a new static data entry
 exports.addStaticData = async (req, res) => {
     try {
-        const { TransactionFee, LoginId, Password, NetworkFee, Binance, Coinbase, Kraken, Wazirx } = req.body;
+        const { TransactionFee, LoginId, Password, NetworkFee, MinAmount, Binance, Coinbase, Kraken, Wazirx } = req.body;
 
         const kraken = JSON.parse(Kraken);
         const binance = JSON.parse(Binance);
         const coinbase = JSON.parse(Coinbase);
         const wazirx = JSON.parse(Wazirx);
 
-        const newStaticData = new Static({ TransactionFee, LoginId, Password, NetworkFee, Binance: binance, Coinbase: coinbase, Kraken: kraken, Wazirx: wazirx });
+        const newStaticData = new Static({ TransactionFee, LoginId, Password, MinAmount, NetworkFee, Binance: binance, Coinbase: coinbase, Kraken: kraken, Wazirx: wazirx });
 
         await newStaticData.save();
 
@@ -51,7 +51,7 @@ exports.getStaticDataById = async (req, res) => {
 exports.updateStaticData = async (req, res) => {
     try {
         const { id } = req.params;
-        const { TransactionFee, LoginId, Password, NetworkFee, Binance, Coinbase, Kraken, Wazirx } = req.body;
+        const { TransactionFee, LoginId, Password, MinAmount, NetworkFee, Binance, Coinbase, Kraken, Wazirx } = req.body;
 
         // If these are already objects, no need to parse them
         // If they are strings and need to be parsed, ensure they are valid JSON
@@ -62,7 +62,7 @@ exports.updateStaticData = async (req, res) => {
 
         const updatedStaticData = await Static.findByIdAndUpdate(
             id,
-            { TransactionFee, LoginId, Password, NetworkFee, Binance, Coinbase, Kraken, Wazirx },
+            { TransactionFee, LoginId, Password, NetworkFee, MinAmount, Binance, Coinbase, Kraken, Wazirx },
             { new: true, runValidators: true }
         );
 

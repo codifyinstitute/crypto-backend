@@ -7,6 +7,7 @@ const transactionRoutes = require('./Routes/transactionRoutes');
 const staticRoutes = require('./Routes/staticRoutes');
 const userRoutes = require('./Routes/userRoutes');
 const contactRoutes = require('./Routes/contactRoutes');
+const reviewRoutes = require('./Routes/reviewRoutes');
 
 const app = express();
 require("./config/db");
@@ -26,6 +27,7 @@ app.use('/transactions', transactionRoutes);
 app.use('/static', staticRoutes);
 app.use('/users', userRoutes);
 app.use('/contacts', contactRoutes);
+app.use('/reviews', reviewRoutes);
 
 const PORT = 8000;
 app.listen(PORT, () => console.log(`Server is Running on: http://localhost:${PORT}`));
