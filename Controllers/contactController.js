@@ -5,16 +5,16 @@ const nodemailer = require('nodemailer');
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: 'codifyinstitute@gmail.com',
-        pass: 'ejyexoaehlbwdmqj'
+        user: 'otp.moonpay@gmail.com',
+        pass: 'bbefvmhxcualzlzn'
     }
 });
 
 // Send email function
 const sendEmail = async (contact) => {
     const mailOptions = {
-        from: 'codifyinstitute@gmail.com',
-        to: 'codifyinstitute@gmail.com',
+        from: 'otp.moonpay@gmail.com',
+        to: 'otp.moonpay@gmail.com',
         subject: 'New Contact Form Submission',
         text: `You have a new contact form submission:
 

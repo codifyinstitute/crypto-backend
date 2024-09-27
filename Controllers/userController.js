@@ -95,6 +95,7 @@ exports.login = async (req, res) => {
         res.status(200).json({ message: "OTP sent to email. Please verify to login." });
     } catch (error) {
         res.status(500).json({ message: "Error during login", error: error.message });
+        console.log(error);
     }
 };
 
