@@ -16,15 +16,15 @@ const sendOTPEmail = async (email, otp) => {
     const transporter = nodemailer.createTransport({
         service: 'gmail', // Use your email provider
         auth: {
-            user: 'seaesport0990@gmail.com',
-            pass: 'xvgyoffvdlqb'
+            user: 'codifyinstitute@gmail.com',
+            pass: 'ejyexoaehlbwdmqj'
         }
     });
 
     const formattedOTP = formatOTPWithSpaces(otp);
 
     const mailOptions = {
-        from: 'seaesport0990@gmail.com',
+        from: 'codifyinstitute@gmail.com',
         to: email,
         subject: 'Your OTP Code',
         html: `
