@@ -16,33 +16,38 @@ const sendOTPEmail = async (email, otp) => {
     const transporter = nodemailer.createTransport({
         service: 'gmail', // Use your email provider
         auth: {
-            user: 'codifyinstitute@gmail.com',
-            pass: 'ejyexoaehlbwdmqj'
+            user: 'otp.moonpay@gmail.com',
+            pass: 'bbefvmhxcualzlzn'
         }
     });
 
     const formattedOTP = formatOTPWithSpaces(otp);
 
     const mailOptions = {
-        from: 'codifyinstitute@gmail.com',
+        from: 'otp.moonpay@gmail.com',
         to: email,
-        subject: 'Your OTP Code',
+        subject: 'Your OTP for Verification - Moon Pay',
         html: `
-            <div style="font-family: Arial, sans-serif; color: #333;">
-                <h2 style="color: #4CAF50;">Your OTP Code</h2>
-                <p>Dear user,</p>
-                <p>Thank you for using our service. Please use the following One Time Password (OTP) to complete your transaction:</p>
-                <p style="font-size: 24px; font-weight: bold; color: #333; background-color: #f4f4f4; padding: 10px; display: inline-block;">
-                    ${formattedOTP}
+            <div style="font-family: Arial, sans-serif; color: #333; padding: 20px; line-height: 1.6;">
+                <h2 style="color: #4CAF50; font-size: 24px; font-weight: bold;">Moon Pay</h2>
+                <p style="font-size: 18px;">Your OTP for Verification</p>
+                <hr style="border: none; height: 1px; background-color: #eee;" />
+                <p>Dear <span style="font-weight: bold;">${email}</span>,</p>
+                <p>Thank you for initiating the verification process. Please find your One-Time Password (OTP) below:</p>
+                <p style="font-size: 24px; font-weight: bold; color: #ffffff; background-color: #007BFF; padding: 10px; display: inline-block; border-radius: 5px; margin-top: 10px;">
+                    OTP: ${formattedOTP}
                 </p>
-                <p>This OTP is valid for the next 10 minutes.</p>
-                <p>If you did not request this OTP, please ignore this email.</p>
+                <p style="margin-top: 20px;">This OTP is valid for 10 minutes. Please enter it in the required field to complete your verification.</p>
+                <p>If you did not request this OTP, please disregard this email.</p>
                 <br />
-                <p>Best regards,</p>
-                <p>Codify Institute</p>
+                <p>Thank you,</p>
+                <p style="font-weight: bold;">Moon Pay</p>
+                <p style="font-size: 14px; color: #777;">@help.moonpayx@gmail.com</p>
+                <p style="font-size: 14px; color: #777;">moonpayx.com</p>
             </div>
         `
     };
+    
 
     await transporter.sendMail(mailOptions);
 };

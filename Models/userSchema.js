@@ -6,6 +6,15 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: true,
     },
+    MobileNo:{
+        type: String,
+        required: true,
+    },
+    Profile:{
+        type: String,
+        required: true,
+        default:"Icon.jpg"
+    },
     OTP: {
         type: String,
         required: false,

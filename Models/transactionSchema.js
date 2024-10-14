@@ -6,6 +6,10 @@ const transactionSchema = new mongoose.Schema({
         required:true,
         unique:true
     },
+    TransactionId:{
+        type:String,
+        required:true   
+    },
     Email:{
         type:String,
         required:true
@@ -39,6 +43,10 @@ const transactionSchema = new mongoose.Schema({
         required:true
     },
     ProcessingFee:{
+        type:Number,
+        required:true
+    },
+    NetworkFee:{
         type:Number,
         required:true
     },
